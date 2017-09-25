@@ -45,15 +45,17 @@ class Login extends Component {
         var apiBaseUrl = "http://localhost:8000/api/";
         var self = this;
         var payload={
-            "email":this.state.username,
-            "password":this.state.password
+            params: {
+                username:this.state.username,
+                password:this.state.password
+            }
         }
         axios.get(apiBaseUrl+'users', payload)
             .then(function (response) {
                 console.log(response);
-                if(response.status == 200){
+                if(response.status === 200){
                     console.log("Login successfull");
-                    alert(`Logged in as ${response.data[0].username}.`)
+                    alert(`Logged in as ${response.data.username}.`)
 //                    var uploadScreen=[];
 //                    uploadScreen.push(<UploadScreen appContext={self.props.appContext}/>)
 //                    self.props.appContext.setState({loginPage:[],uploadScreen:uploadScreen})
