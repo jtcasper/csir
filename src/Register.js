@@ -5,22 +5,28 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import axios from 'axios';
 import Login from './Login';
+import { URL, REGISTER } from './config/Api';
 class Register extends Component {
     handleClick(event){
-        var apiBaseUrl = "http://localhost:8000/api/users";
-        console.log("values",this.state.first_name,this.state.last_name,this.state.email,this.state.password);
+        console.log("values",this.state.first_name,this.state.last_name,this.state.email,this.state.user_name,this.state.password);
         //To be done:check for empty values before hitting submit
         var self = this;
-        var payload={
-            "first_name": this.state.first_name,
-            "last_name":this.state.last_name,
-            "email":this.state.email,
-            "username":this.state.user_name,
-            "password":this.state.password
 
-        }
-        axios.post(apiBaseUrl, payload)
-            .then(function (response) {
+        var first_name = this.state.first_name
+        var last_name = this.state.last_name
+        var email = this.state.email
+        var username = this.state.user_name
+        var password = this.state.password
+
+        return axios
+        .post(URL + REGISTER, {
+            first_name,
+            last_name,
+            email,
+            username,
+            password
+        })
+        .then(function (response) {
                 console.log(response);
                 if(response.data.code == 200){
                     //  console.log("registration successfull");

@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from rest_framework.authtoken import views as drf_views
 
 from api.views import *
 
@@ -25,4 +26,5 @@ urlpatterns = [
     url(r'^api/comments', ListCreateComments.as_view(), name='list_comments'),
     url(r'^api/reports', ListCreateReports.as_view(), name='list_reports'),
     url(r'^api/users', ListCreateUsers.as_view(), name='list_users'),
+    url(r'^auth$', drf_views.obtain_auth_token, name='auth')
 ]
