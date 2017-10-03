@@ -5,3 +5,6 @@ api/migrations/__pycache__/
 caesar/__pycache__/
 env/
 node_modules/
+*.pyc
+.coverage
+nosetests.xml

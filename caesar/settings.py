@@ -78,6 +78,7 @@ TEMPLATES = [
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 NOSE_ARGS = [
+    '--with-xunit',
     '--with-coverage',
     '--cover-package=api',
     '--cover-inclusive',
