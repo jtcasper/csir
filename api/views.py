@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework import status
+from rest_framework import viewsets
 from rest_framework.response import Response
-from django import forms
 
 from api.serializers import *
 from api.models import *
@@ -11,20 +11,23 @@ class ListCreateIssues(generics.ListCreateAPIView):
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer
 
+
 class ListCreateVotes(generics.ListCreateAPIView):
     queryset = Vote.objects.all()
     serializer_class = VoteSerializer
+
 
 class ListCreateComments(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
+
 class ListCreateReports(generics.ListCreateAPIView):
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
 
-class ListCreateUsers(generics.ListCreateAPIView):
 
+class ListCreateUsers(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -44,8 +47,8 @@ class ListCreateUsers(generics.ListCreateAPIView):
                 return Response(userSerial.data, status=status.HTTP_200_OK)
             else:
                 print('here')
-                content = {'response':'User/PW not found'}
-                return  Response(content, status=status.HTTP_204_NO_CONTENT)
+                content = {'response': 'User/PW not found'}
+                return Response(content, status=status.HTTP_204_NO_CONTENT)
         else:
             print('no username')
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -61,7 +64,7 @@ class ListCreateUsers(generics.ListCreateAPIView):
         if all(param is not None for param in [username, password, email, fname, lname]):
             user = User.objects.filter(username=username)
             if user.exists():
-                content = {'response':'User with that name already exists'}
+                content = {'response': 'User with that name already exists'}
                 return Response(content, status=status.HTTP_409_CONFLICT)
             user = User.objects.create_user(username=username, password=password, email=email)
             user.first_name, user.last_name = fname, lname
@@ -69,3 +72,43 @@ class ListCreateUsers(generics.ListCreateAPIView):
             return Response(status=status.HTTP_201_CREATED)
         else:
             return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+
+class ReportViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows reports to be viewed or edited.
+    """
+    queryset = Report.objects.all().order_by('-issue')
+    serializer_class = ReportSerializer
+
+
+class CommentViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows comments to be viewed or edited.
+    """
+    queryset = Comment.objects.all().order_by('-issue')
+    serializer_class = CommentSerializer
+
+
+class VoteViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows votes to be viewed or edited.
+    """
+    queryset = Vote.objects.all().order_by('-issue')
+    serializer_class = VoteSerializer
+
+
+class IssueViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows issues to be viewed or edited.
+    """
+    queryset = Issue.objects.all().order_by('-created_at')
+    serializer_class = IssueSerializer

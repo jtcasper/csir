@@ -13,18 +13,22 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
+from rest_framework import routers
 from rest_framework.authtoken import views as drf_views
 
 from api.views import *
 
+router = routers.DefaultRouter()
+router.register(r'api/users', UserViewSet)
+router.register(r'api/issues', IssueViewSet)
+router.register(r'api/comments', CommentViewSet)
+router.register(r'api/votes', VoteViewSet)
+router.register(r'api/reports', ReportViewSet)
+
 urlpatterns = [
+    url(r'^', include(router.urls), name='api'),
     url(r'^admin/', admin.site.urls),
-    url(r'^api/issues', ListCreateIssues.as_view(), name='list_issues'),
-    url(r'^api/votes', ListCreateVotes.as_view(), name='list_votes'),
-    url(r'^api/comments', ListCreateComments.as_view(), name='list_comments'),
-    url(r'^api/reports', ListCreateReports.as_view(), name='list_reports'),
-    url(r'^api/users', ListCreateUsers.as_view(), name='list_users'),
     url(r'^auth$', drf_views.obtain_auth_token, name='auth')
 ]

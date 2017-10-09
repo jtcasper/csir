@@ -1,4 +1,4 @@
-
+.vscode
 .idea/
 api/__pycache__/
 api/migrations/__pycache__/
