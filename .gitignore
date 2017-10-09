@@ -8,3 +8,5 @@ node_modules/
 *.pyc
 .coverage
 nosetests.xml
+.vscode
+.eslintrc.json

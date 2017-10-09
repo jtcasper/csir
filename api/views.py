@@ -2,6 +2,8 @@ from rest_framework import generics
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.response import Response
+from django.contrib.gis.geos import Point
+from django import forms
 
 from api.serializers import *
 from api.models import *
@@ -11,6 +13,59 @@ class ListCreateIssues(generics.ListCreateAPIView):
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer
 
+    def get(self, request, *args, **kwargs):
+        id = self.request.query_params.get('id', None)
+        lat = self.request.query_params.get('lat', None)
+        lng = self.request.query_params.get('lng', None)
+        dist = self.request.query_params.get('dist', None)
+        if id is not None:
+            try:
+                issue = Issue.objects.get(id=id)
+            except Issue.DoesNotExist:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            issueSerial = IssueSerializer(issue)
+            return Response(issueSerial.data, status=status.HTTP_200_OK)
+        if lat is not None and lng is not None:
+            if dist is None:
+                dist = 25
+            print(lng)
+            print(lat)
+            flng = float(lng)
+            flat = float(lat)
+            pnt = Point(flat, flng)
+            print(pnt)
+            issueSet = Issue.objects.filter(location__dwithin=(pnt, dist))
+            print(issueSet)
+            issueSetSerial = IssueSerializer(issueSet, many=True)
+            print(issueSetSerial)
+
+            return Response(issueSetSerial.data, status=status.HTTP_200_OK)
+
+
+    def post(self, request, *args, **kwargs):
+        name = self.request.data.get('name', None)
+        description = self.request.data.get('description', None)
+        lng = self.request.data.get('lng', None)
+        lat = self.request.data.get('lat', None)
+        author = self.request.user
+        flat = None
+        flng = None
+        if lat is not None and lng is not None:
+            flat = float(lat)
+            flng = float(lng)
+        for param in [name, description, lat, lng, author]:
+            print(param)
+        if all(param is not None for param in [name, description, flng, flat, author]):
+            try:
+                User.objects.get(username=author)
+            except User.DoesNotExist:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            location = Point(flat, flng)
+            issue = Issue.objects.create(name=name, desc=description, location=location, author=author)
+            issue.save()
+            return Response(status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class ListCreateVotes(generics.ListCreateAPIView):
     queryset = Vote.objects.all()

@@ -1,6 +1,10 @@
 from django.contrib.gis.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from django.contrib.gis.measure import Distance
+from django.contrib.gis.geos import Point
+
+
 
 
 class User(AbstractUser):
@@ -12,6 +16,7 @@ class User(AbstractUser):
 class Issue(models.Model):
     name = models.TextField()
     desc = models.TextField()
+    #TODO Update this field so that we can use real-world distances and not geometries.
     location = models.PointField(null=True, blank=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='issues', null=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -19,7 +24,6 @@ class Issue(models.Model):
 
     def __str__(self):
         return self.name
-
 
 class Vote(models.Model):
     VOTE_UP = 'U'

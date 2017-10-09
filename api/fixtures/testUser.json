@@ -1,0 +1,29 @@
+[
+  {
+    "model": "api.user",
+    "pk": "jtcasper",
+    "fields": {
+      "password": "pbkdf2_sha256$36000$yzOCXZ3eO49x$ZdWq5OQRvEkY9Z40bw3yP824gGz+P6CB08Ab/0U1BUI=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "Jacob",
+      "last_name": "Casper",
+      "email": "jtcasper@ncsu.edu",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2017-10-04T14:52:43.076Z",
+      "official": false,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+
+  {"model": "authtoken.token",
+    "pk": "f9ca8a6ea884a6b070b43d33ba8d955b5f3ea3c4",
+    "fields": {
+      "user": "jtcasper",
+      "created": "2017-10-04T19:49:39.290Z"
+    }
+  }
+]
+
