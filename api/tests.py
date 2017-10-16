@@ -1,20 +1,24 @@
-import json
-
-from api.models import User
 from django.core.urlresolvers import reverse
-
+from django.test import TestCase
 from rest_framework.authtoken.models import Token
-from rest_framework.test import APITestCase, APIClient
+from rest_framework.test import APITestCase
+
+from api.models import User, Issue
+
+OK = 200
+CREATED = 201
+NOT_FOUND = 404
+BAD_REQUEST = 400
+
 
 class UserRegistrationAPIViewTestCase(APITestCase):
     fixtures = ['testUser.json']
-    url = reverse("list_users")
+    url = reverse("user-list")
 
     def setUp(self):
         token = Token.objects.get(user__username='jtcasper')
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
 
-    # fields = ('first_name', 'last_name', 'username', 'password', 'email', 'official')
     def test_user_registration(self):
         """
         Test to verify a post call valid information
@@ -29,9 +33,8 @@ class UserRegistrationAPIViewTestCase(APITestCase):
         }
 
         response = self.client.post(self.url, user_data)
-        self.assertEqual(201, response.status_code)
+        self.assertEqual(CREATED, response.status_code)
 
-        
     def test_unique_username_validation(self):
         """
         Test to verify that a post call with already exists username
@@ -45,7 +48,7 @@ class UserRegistrationAPIViewTestCase(APITestCase):
             "official": False
         }
         response = self.client.post(self.url, user_data_1)
-        self.assertEqual(201, response.status_code)
+        self.assertEqual(CREATED, response.status_code)
 
         user_data_2 = {
             "first_name": "Test2",
@@ -56,11 +59,12 @@ class UserRegistrationAPIViewTestCase(APITestCase):
             "official": False
         }
         response = self.client.post(self.url, user_data_2)
-        self.assertEqual(409, response.status_code)
+        self.assertEqual(BAD_REQUEST, response.status_code)
+
 
 class IssueAPIPostTestCase(APITestCase):
     fixtures = ['testUser.json']
-    url = reverse("list_issues")
+    url = reverse("issue-list")
 
     def setUp(self):
         token = Token.objects.get(user__username='jtcasper')
@@ -70,18 +74,22 @@ class IssueAPIPostTestCase(APITestCase):
         """
         Test to verify that an authorized Issue post will create an issue successfully.
         """
+
         issue_data = {
-            "name": "TestIssue",
-            "description": "TestDesc",
-            "location": "POINT(78.6382 35.7796)",
+            "name": "The roads are all broken.",
+            "desc": "Somehow, every road needs to be repaired?",
+            "lat": '78.6382',
+            "lng": '35.7796',
+            "author": "jtcasper"
         }
 
         response = self.client.post(self.url, issue_data)
-        self.assertEqual(201, response.status_code)
+        self.assertEqual(CREATED, response.status_code)
+
 
 class IssueAPIGetTestCase(APITestCase):
     fixtures = ['testUser.json', 'testIssue.json']
-    url = reverse("list_issues")
+    url = reverse("issue-list")
 
     def setUp(self):
         token = Token.objects.get(user__username='jtcasper')
@@ -91,8 +99,8 @@ class IssueAPIGetTestCase(APITestCase):
         """
         Test that an issue can be returned by id
         """
-        response = self.client.get(self.url + '?id=1')
-        self.assertEqual(200, response.status_code)
+        response = self.client.get(self.url + '1/')
+        self.assertEqual(OK, response.status_code)
         self.assertEqual("TestIssue", response.data.get('name'))
         self.assertEqual("TestDesc", response.data.get('desc'))
         self.assertEqual("jtcasper", response.data.get('author'))
@@ -101,16 +109,56 @@ class IssueAPIGetTestCase(APITestCase):
         """
         Test the response for an issue that does not exist
         """
-        response = self.client.get(self.url + '?id=999')
-        self.assertEqual(400, response.status_code)
+        response = self.client.get(self.url + '999/')
+        self.assertEqual(NOT_FOUND, response.status_code)
 
-    def test_get_issue_lat_lng(self):
+    def test_get_issue_by_dist(self):
         """
-        Test the issues that are returned when provided a latitude and a longitude without distance
+        Test getting the nearest issues to the user.
         """
-        response=self.client.get(self.url + '?lat=78.6382&lng=35.779')
-        self.assertEqual(200, response.status_code)
-        self.assertEqual("TestIssue", response.data[0].get('name'))
-        self.assertEqual("TestDesc", response.data[0].get('desc'))
-        self.assertEqual("jtcasper", response.data[0].get('author'))
+        response = self.client.get(self.url + 'near/')
+        self.assertEqual(OK, response.status_code)
+        self.assertEqual(b'[]', response.content)  # Empty byte array
 
+    def test_get_issue_comments(self):
+        """
+        Test getting the comments for an issue.
+        """
+        response = self.client.get(self.url + '1/comments/')
+        self.assertEqual(OK, response.status_code)
+        self.assertEqual(b'[]', response.content)  # Empty byte array
+
+    def test_get_issue_votes(self):
+        """
+        Test getting the votes for an issue.
+        """
+        response = self.client.get(self.url + '1/votes/')
+        self.assertEqual(OK, response.status_code)
+        self.assertEqual(b'[]', response.content)  # Empty byte array
+
+    def test_get_issue_reports(self):
+        """
+        Test getting the reports for an issue.
+        """
+        response = self.client.get(self.url + '1/reports/')
+        self.assertEqual(OK, response.status_code)
+        self.assertEqual(b'[]', response.content)  # Empty byte array
+
+
+"""
+TEST MODELS
+"""
+
+
+class IssueModelTestCase(TestCase):
+    fixtures = ['testUser.json']
+
+    def test_string_representation(self):
+        issue = Issue(name="TestIssue", desc="TestDesc", lng=1337, lat=1337)
+        self.assertEqual(str(issue), issue.name)
+
+
+class UserModelTestCase(TestCase):
+    def test_string_representation(self):
+        user = User(username="lwkerr", email="lwkerr@ncsu.edu", first_name="Len", last_name="Kerr")
+        self.assertEqual(str(user), user.username)

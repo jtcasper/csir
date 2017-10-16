@@ -1,9 +1,12 @@
 [
-  {"model": "api.issue",
+  {
+    "model": "api.issue",
     "pk": 1,
     "fields": {
       "name": "TestIssue",
       "desc": "TestDesc",
+      "lng": "35.7796",
+      "lat": "78.6382",
       "location": "SRID=4326;POINT (78.6382 35.7796)",
       "author": "jtcasper",
       "created_at": "2017-10-04T20:04:04.204Z",

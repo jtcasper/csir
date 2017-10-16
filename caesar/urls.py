@@ -26,9 +26,15 @@ router.register(r'api/issues', IssueViewSet)
 router.register(r'api/comments', CommentViewSet)
 router.register(r'api/votes', VoteViewSet)
 router.register(r'api/reports', ReportViewSet)
+# router.register(r'api/near', NearIssueViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls), name='api'),
     url(r'^admin/', admin.site.urls),
     url(r'^auth$', drf_views.obtain_auth_token, name='auth')
+]
+
+urlpatterns += [
+    url(r'^api-auth/', include('rest_framework.urls',
+                               namespace='rest_framework')),
 ]

@@ -10,3 +10,5 @@ node_modules/
 nosetests.xml
 .vscode
 .eslintrc.json
+api/migrations/*
+!api/migrations/__init__.py

@@ -17,8 +17,8 @@
       "user_permissions": []
     }
   },
-
-  {"model": "authtoken.token",
+  {
+    "model": "authtoken.token",
     "pk": "f9ca8a6ea884a6b070b43d33ba8d955b5f3ea3c4",
     "fields": {
       "user": "jtcasper",
