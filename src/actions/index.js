@@ -6,3 +6,10 @@ export const setToken = (data) => {
         data
     }
 }
+
+export const getIssue = (data) => {
+    return {
+        type: actionType.GET_ISSUE,
+        data
+    }
+}

@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import axios from 'axios';
 import Login from './Login';
-import { URL, REGISTER } from './config/Api';
+import { URL, REGISTER } from '../config/Api';
 class Register extends Component {
     handleClick(event){
         console.log("values",this.state.first_name,this.state.last_name,this.state.email,this.state.user_name,this.state.password);
@@ -28,7 +28,7 @@ class Register extends Component {
         })
         .then(function (response) {
                 console.log(response);
-                if(response.data.code == 200){
+                if(response.data.code === 200){
                     //  console.log("registration successfull");
                     var loginscreen=[];
                     loginscreen.push(<Login parentContext={this}/>);

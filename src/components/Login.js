@@ -3,9 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import axios from 'axios';
-import UploadScreen from './UploadScreen';
-import { login } from './util/Auth';
+import { login } from '../util/Auth';
 class Login extends Component {
     constructor(props){
         super(props);
@@ -42,44 +40,12 @@ class Login extends Component {
         );
     }
 
+
     handleClick(event){
-//        var apiBaseUrl = "http://localhost:8000/api/";
-//        var self = this;
-//        var payload={
-//            params: {
-//                username:this.state.username,
-//                password:this.state.password
-//            }
-//        }
-//        axios.get(apiBaseUrl+'users', payload)
         login(this.state.username, this.state.password)
-//            .then(function (response) {
-//                console.log(response);
-//                if(response.status === 200){
-//                    console.log("Login successfull");
-//                    alert(`Logged in as ${response.data.username}.`)
-//                    var uploadScreen=[];
-//                    uploadScreen.push(<UploadScreen appContext={self.props.appContext}/>)
-//                    self.props.appContext.setState({loginPage:[],uploadScreen:uploadScreen})
-//                }
-//                else if(response.status == 204){
-//                    console.log("Username password do not match");
-//                    alert("username password do not match")
-//                }
-//                else{
-//                    console.log("Username does not exists");
-//                    alert("Username does not exist");
-//                }
-//            })
-//            .catch(function (error) {
-//                console.log(error);
-//            });
     }
 }
 const style = {
     margin: 15,
 };
-
-
-
 export default Login;

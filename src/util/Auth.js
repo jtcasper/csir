@@ -29,5 +29,5 @@ export function login (username, password) {
 }
 
 export function loggedin() {
-    return store.getState().token == null;
+    return store.getState().token != null;
 }

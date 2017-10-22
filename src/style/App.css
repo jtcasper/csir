@@ -1,0 +1,90 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: #FFEBCD;
+  text-align: center;
+}
+
+.App-map {
+  height: 350px;
+  justify-self: flex-end;
+  align-self: flex-end;
+  text-align: center;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Position and sizing of burger button */
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 36px;
+  top: 36px;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: #FFEBCD;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #FFEBCD;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: #222222;
+  padding: 4.5em 1.5em 0;
+  font-size: 1.15em;
+  color:#FFEBCD;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: #FFEBCD;
+  padding-left: 2em;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+a:link {
+  color: #FFEBCD;
+}
+
+/* visited link */
+a:visited {
+  color: #FFEBCD;
+}

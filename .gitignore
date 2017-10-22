@@ -8,7 +8,9 @@ node_modules/
 *.pyc
 .coverage
 nosetests.xml
-.vscode
 .eslintrc.json
 api/migrations/*
 !api/migrations/__init__.py
+.DS_Store
+.eslintrc.json
+.vscode/
