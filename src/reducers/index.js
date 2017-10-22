@@ -23,7 +23,6 @@ const issues = (state = issueInitialState, action) => {
 
 const appReducer = combineReducers({
     token,
-    issues,
 })
 
 const rootReducer = (state, action) => {

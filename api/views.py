@@ -1,6 +1,7 @@
 from django.contrib.gis.geos import Point
 from rest_framework import permissions
 from rest_framework import viewsets
+from rest_framework import status
 from rest_framework.decorators import list_route, detail_route
 from rest_framework.response import Response
 
@@ -50,6 +51,33 @@ class IssueViewSet(viewsets.ModelViewSet):
     queryset = Issue.objects.all().order_by('-created_at')
     serializer_class = IssueSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def create(self, request, *args, **kwargs):
+        print(request)
+        name = self.request.data.get('name', None)
+        description = self.request.data.get('description', None)
+        lng = self.request.data.get('lng', None)
+        lat = self.request.data.get('lat', None)
+        author = self.request.user
+        flat = None
+        flng = None
+        if lat is not None and lng is not None:
+            flat = float(lat)
+            flng = float(lng)
+        for param in [name, description, lat, lng, author]:
+            print(param)
+        if all(param is not None for param in [name, description, flng, flat, author]):
+            try:
+                User.objects.get(username=author)
+            except User.DoesNotExist:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            location = Point(flat, flng)
+            print(location)
+            issue = Issue.objects.create(name=name, desc=description, lat=flat, lng=flng, location=location, author=author)
+            issue.save()
+            return Response(status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
     @detail_route(methods=['get'])
     def comments(self, request, pk=None):

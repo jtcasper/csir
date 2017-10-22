@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import TextArea from '../components/TextArea';
 import PropTypes from 'prop-types';
 import {URL, ISSUE} from "../config/Api";
+import store from '../store';
 import axios from 'axios';
 
 class FormContainer extends Component {
@@ -34,18 +35,22 @@ class FormContainer extends Component {
         var description = this.state.description
         var lat = this.state.lat
         var lng = this.state.lng
-        return axios.post(URL + ISSUE, {
-            title: title,
+        return axios
+        .post(URL + ISSUE + '/', {
+            name: title,
             description: description,
             lat: lat,
             lng: lng
+        },
+        {
+            headers: {'Authorization': 'Token ' + store.getState().token}
         })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 
     }
 
@@ -70,7 +75,7 @@ class FormContainer extends Component {
     }
     render() {
         return (
-            <form className="container" onSubmit={this.handleFormSubmit}>
+            <div className="container">
                 <h5>Create New Issue</h5>
                 <TextArea
                     inputType={'text'}
@@ -105,7 +110,7 @@ class FormContainer extends Component {
                     className="btn btn-link"
                     onClick={this.handleFormSubmit}>Submit
                 </button>
-            </form>
+            </div>
         );
     }
 }

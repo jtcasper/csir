@@ -27,9 +27,6 @@ export class MapContainer extends Component {
   }
 
   onActiveMarkerClick(props, marker, e) {
-    // this.setState({
-      // selectedPlace: props,
-    // })
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
@@ -46,7 +43,7 @@ export class MapContainer extends Component {
       selectedPlace: props,
       activeMarker: marker,
       showingInfoWindow: true,
-      infoWindowContent: <FormContainer position={{ lat: marker.position.lat(), lng: marker.position.lng() }} />,      
+      infoWindowContent: <FormContainer position={{ lat: marker.position.lat(), lng: marker.position.lng() }} />, 
       lat: marker.position.lat(),
       lng: marker.position.lng(),
     })
@@ -76,8 +73,7 @@ export class MapContainer extends Component {
         }
     })
     .then( (response) => {
-        this.setState({markers:response.data})
-        // console.log(this.state.markers)
+      this.setState({markers:response.data.results})
     })
     .catch(function(error) {
         console.log(error)
@@ -137,16 +133,12 @@ export class MapContainer extends Component {
           {/* Create markers programmatically from the database */}
 
           {this.state.markers.map((marker, i) => {
-            let values = marker.location.split(" ")
-            console.log(values)
-            console.log(values[2].substring(0,values[2].length-1))
-            console.log(values[1].substring(1))
             return (
               <Marker
               name={marker.name}
               position={{
-                lat:values[2].substring(0,values[2].length-1),
-                lng:values[1].substring(1)
+                lat:marker.lat,
+                lng:marker.lng
               }}
               onClick={this.onActiveMarkerClick}/>
             )
@@ -154,6 +146,7 @@ export class MapContainer extends Component {
 
           {/* Render a marker at the user's clicked location */}
           {placeMarker}
+          {this.state.infoWindowContent}
           <InfoWindow
               marker={this.state.activeMarker}
               visible={this.state.showingInfoWindow}>
