@@ -3,7 +3,6 @@
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
   height: 80px;
 }
 
@@ -87,4 +86,44 @@ a:link {
 /* visited link */
 a:visited {
   color: #FFEBCD;
+}
+
+.vote {
+  font-family: 'Arimo', sans-serif;
+  text-align: center;
+  color: #525558;
+  user-select: none;
+  cursor: default;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.vote__arrow {
+  width: 32px;
+  margin: 8px 0;
+  fill: none;
+  stroke-width: 2;
+  stroke: #abaeb1;
+  cursor: pointer;
+  transition: transform 150ms ease-in-out;
+}
+.vote__arrow:active {
+  transform: scale(1.15);
+}
+.vote__arrow--up:active {
+  stroke: #b4da55;
+}
+.vote__arrow--down:active {
+  stroke: #f33119;
+}
+.vote__columns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.vote__column {
+  height: 48px;
+  font-size: 42px;
+  overflow: hidden;
 }

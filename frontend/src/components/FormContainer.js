@@ -32,13 +32,13 @@ class FormContainer extends Component {
 
     handleFormSubmit() {
         var title = this.state.issueTitle
-        var description = this.state.description
+        var desc = this.state.description
         var lat = this.state.lat
         var lng = this.state.lng
         return axios
         .post(URL + ISSUE + '/', {
             name: title,
-            description: description,
+            desc: desc,
             lat: lat,
             lng: lng
         },

@@ -4,8 +4,10 @@ import '../style/App.css';
 import LandingPage from './LandingPage';
 import Dropdown from './Dropdown';
 import Login from './Login';
-import logo from '../caesar.svg';
+import logo from '../caesar.png';
 import { slide as Menu } from 'react-burger-menu';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();

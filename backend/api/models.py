@@ -31,18 +31,18 @@ class Issue(models.Model):
 
 
 class Vote(models.Model):
-    VOTE_UP = 'U'
-    VOTE_MIDDLE = 'M'
-    VOTE_DOWN = 'D'
     VOTE_CHOICES = (
-        (VOTE_UP, 'Up vote'),
-        (VOTE_MIDDLE, 'No vote'),
-        (VOTE_DOWN, 'Down vote'),
+        (1, 'Up vote'),
+        (0, 'No vote'),
+        (-1, 'Down vote'),
     )
 
-    vote = models.CharField(max_length=1, choices=VOTE_CHOICES, default=VOTE_MIDDLE)
+    vote = models.IntegerField(choices=VOTE_CHOICES, default=0)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='votes', on_delete=models.CASCADE)
     issue = models.ForeignKey(Issue, related_name='votes', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = (("author", "issue"),)
 
 
 class Comment(models.Model):
