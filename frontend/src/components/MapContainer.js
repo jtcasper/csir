@@ -7,6 +7,12 @@ import { URL, ISSUE } from '../config/Api';
 import FormContainer from "./FormContainer";
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import Vote from './Vote';
+// Project resources
+import grey from '../resources/grey.png';
+import blue from '../resources/blue.png';
+import purple from '../resources/purple.png';
+import green from '../resources/green.png';
+var projectData = require('../resources/data.json');
 
 
 export class MapContainer extends Component {
@@ -105,6 +111,20 @@ export class MapContainer extends Component {
     return issues.map((issue) => this.createMarker(issue));
   }
 
+    // Determines icon to use based on the funding status of a project
+    selectIcon = (status) => {
+      let icon;
+      if (status === 'Design')
+        icon = grey
+      else if (status === 'Partially funded')
+        icon = purple
+      else if (status === 'Funded')
+        icon = blue
+      else if (status === 'Construction')
+        icon = green
+      return icon
+    }
+
   render() {
 
     let placeMarker = null
@@ -138,6 +158,26 @@ export class MapContainer extends Component {
               id={marker.id}
               onClick={this.onActiveMarkerClick} />
           )
+        })}
+
+        {/* Create markers programmatically from the GeoJSON of current raleigh projects */}
+        {projectData.map((endpoint, i) => {
+          console.log(endpoint)
+          let project = endpoint.map((project, j) => {
+            console.log(j)
+            console.log(project.features)
+            return (
+              <Marker
+                name={project.features[0].properties.ProjectNam}
+                position={{
+                  lat: project.features[0].geometry.coordinates[1],
+                  lng: project.features[0].geometry.coordinates[0]
+                }}
+                icon={this.selectIcon(project.features[0].properties.FundingSta)}
+                onClick={this.onActiveMarkerClick} />
+            )
+          })
+          return project
         })}
 
         {/* Render a marker at the user's clicked location */}

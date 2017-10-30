@@ -7,6 +7,7 @@ nosetests.xml
 .eslintrc.json
 .DS_Store
 .eslintrc.json
+<<<<<<< HEAD
 api/__pycache__/
 api/migrations/__pycache__/
 caesar/__pycache__/
@@ -14,3 +15,7 @@ env/
 */api/migrations/*
 !*/api/migrations/__init__.py
 frontend/npm-debug.log
+=======
+.vscode/
+*.json
+>>>>>>> Update gitignore to not save json
