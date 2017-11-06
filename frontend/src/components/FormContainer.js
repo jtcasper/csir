@@ -44,7 +44,7 @@ class FormContainer extends Component {
         return axios
             .post(URL + ISSUE + '/', {
                     name: title,
-                    description: description,
+                    desc: description,
                     lat: lat,
                     lng: lng
                 },
