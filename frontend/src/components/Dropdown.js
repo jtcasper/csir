@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { slide as Menu } from 'react-burger-menu';
 
 class Dropdown extends Component {
     constructor(props) {
@@ -25,7 +26,7 @@ class Dropdown extends Component {
         }
         return (
             <div id="content">
-                <button class="contentButton" onClick={this.toggle}>{this.props.name}</button>
+                <button class="menu-item" onClick={this.toggle}>{this.props.name}</button>
                 {content}
             </div>
         )

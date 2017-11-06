@@ -19,6 +19,7 @@
   justify-self: flex-end;
   align-self: flex-end;
   text-align: center;
+  float: left;
 }
 
 .App-intro {
@@ -126,4 +127,21 @@ a:visited {
   height: 48px;
   font-size: 42px;
   overflow: hidden;
+}
+.form{
+  background-color: white;
+}
+
+.container{
+  text-align: center;
+
+}
+
+.table{
+  border: 3px solid black;
+}
+
+
+.map{
+  float:left;
 }

@@ -7,6 +7,8 @@ import { URL, ISSUE } from '../config/Api';
 import FormContainer from "./FormContainer";
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import Vote from './Vote';
+import CommentArea from './CommentArea';
+import IssueContainer from './IssueContainer'
 // Project resources
 import grey from '../resources/grey.png';
 import blue from '../resources/blue.png';
@@ -21,6 +23,7 @@ export class MapContainer extends Component {
     this.state = {
       showingInfoWindow: false,
       infoWindowContent: "",
+      commentContent: "",
       activeMarker: null,
       placeMarker: null,
       selectedPlace: {},
@@ -39,14 +42,15 @@ export class MapContainer extends Component {
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
-      showingInfoWindow: true,
+      showingInfoWindow: false,
       infoWindowContent:
       <div>
         <h1>{props.name}</h1><br/>
-        <p>{props.desc}</p><br/>        
+        <p>{props.desc}</p><br/>   
         <div><Vote issue_id={props.id}/></div>
-        <div></div>
+        <div><IssueContainer title={props.id} description={props.desc} /></div>
       </div>,
+      commentContent:<div><CommentArea issue_id={props.id} /></div>,
       lat: marker.position.lat(),
       lng: marker.position.lng()
     });
@@ -57,7 +61,7 @@ export class MapContainer extends Component {
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
-      showingInfoWindow: true,
+      showingInfoWindow: false,
       infoWindowContent: <FormContainer position={{ lat: marker.position.lat(), lng: marker.position.lng() }} />,
       lat: marker.position.lat(),
       lng: marker.position.lng(),
@@ -68,6 +72,7 @@ export class MapContainer extends Component {
     if (this.state.showingInfoWindow) {
       this.setState({
         showingInfoWindow: false,
+        commentContent: "",
         activeMarker: null
       })
     } else {
@@ -127,6 +132,9 @@ export class MapContainer extends Component {
 
   render() {
 
+    console.log(this.state.markers)
+    console.log(this.state.activeMarker)
+
     let placeMarker = null
     if (this.state.placeMarker != null) {
       console.log(this.state.placeMarker)
@@ -162,10 +170,7 @@ export class MapContainer extends Component {
 
         {/* Create markers programmatically from the GeoJSON of current raleigh projects */}
         {projectData.map((endpoint, i) => {
-          console.log(endpoint)
           let project = endpoint.map((project, j) => {
-            console.log(j)
-            console.log(project.features)
             return (
               <Marker
                 name={project.features[0].properties.ProjectNam}
@@ -183,6 +188,8 @@ export class MapContainer extends Component {
         {/* Render a marker at the user's clicked location */}
         {placeMarker}
         {this.state.infoWindowContent}
+        {this.state.commentContent}
+        {console.log(this.state.commentContent)}
         <InfoWindow
           marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}>

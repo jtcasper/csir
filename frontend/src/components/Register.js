@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import axios from 'axios';
 import Login from './Login';
+import '../style/App.css';
 import { URL, REGISTER } from '../config/Api';
 class Register extends Component {
     handleClick(event){
@@ -19,14 +20,14 @@ class Register extends Component {
         var password = this.state.password
 
         return axios
-        .post(URL + REGISTER, {
-            first_name,
-            last_name,
-            email,
-            username,
-            password
-        })
-        .then(function (response) {
+            .post(URL + REGISTER, {
+                first_name,
+                last_name,
+                email,
+                username,
+                password
+            })
+            .then(function (response) {
                 console.log(response);
                 if(response.data.code === 200){
                     //  console.log("registration successfull");
@@ -58,10 +59,8 @@ class Register extends Component {
         return (
             <div>
                 <MuiThemeProvider>
-                    <div>
-                        <AppBar
-                            title="Register"
-                        />
+                    <div className="form">
+
                         <TextField
                             hintText="Enter your First Name"
                             floatingLabelText="First Name"

@@ -70,15 +70,19 @@ class VoteSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     detail = serializers.HyperlinkedIdentityField(
         view_name='comment-detail', format='html')
-    issue = serializers.HyperlinkedRelatedField(
-        many=False, queryset=Issue.objects.all(), view_name='issue-detail')
+    # issue = serializers.HyperlinkedRelatedField(
+    #     many=False, queryset=Issue.objects.all(), view_name='issue-detail')
     author = serializers.HyperlinkedRelatedField(
         many=False, view_name='user-detail', read_only=True)
+    author_raw = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
-        fields = ('detail', 'id', 'body', 'author', 'issue')
+        fields = ('detail', 'id', 'body', 'author', 'author_raw', 'issue')
         read_only_fields = ('id', 'author')
+
+    def get_author_raw(self, obj):
+        return str(obj.author)
 
 
 class ReportSerializer(serializers.ModelSerializer):

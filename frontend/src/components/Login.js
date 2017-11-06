@@ -4,6 +4,7 @@ import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import { login } from '../util/Auth';
+import '../style/App.css';
 class Login extends Component {
     constructor(props){
         super(props);
@@ -16,10 +17,8 @@ class Login extends Component {
         return (
             <div>
                 <MuiThemeProvider>
-                    <div>
-                        <AppBar
-                            title="Login"
-                        />
+                    <div className="form">
+
                         <TextField
                             hintText="Enter your Username"
                             floatingLabelText="Username"
