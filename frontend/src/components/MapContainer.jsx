@@ -5,8 +5,6 @@ import store from '../store';
 import axios from 'axios';
 import { URL, ISSUE } from '../config/Api';
 import FormContainer from "./FormContainer";
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
-import Vote from './Vote';
 import CommentArea from './CommentArea';
 import IssueContainer from './IssueContainer'
 // Project resources
@@ -45,10 +43,7 @@ export class MapContainer extends Component {
       showingInfoWindow: false,
       infoWindowContent:
       <div>
-        <h1>{props.name}</h1><br/>
-        <p>{props.desc}</p><br/>   
-        <div><Vote issue_id={props.id}/></div>
-        <div><IssueContainer title={props.id} description={props.desc} /></div>
+        <div><IssueContainer title={props.name} description={props.desc} id={props.id} /></div>
       </div>,
       commentContent:<div><CommentArea issue_id={props.id} /></div>,
       lat: marker.position.lat(),
@@ -131,10 +126,6 @@ export class MapContainer extends Component {
     }
 
   render() {
-
-    console.log(this.state.markers)
-    console.log(this.state.activeMarker)
-
     let placeMarker = null
     if (this.state.placeMarker != null) {
       console.log(this.state.placeMarker)
@@ -142,7 +133,6 @@ export class MapContainer extends Component {
       placeMarker = <Marker name={this.state.placeMarker.name} position={{ lat: this.state.placeMarker.props.position.lat, lng: this.state.placeMarker.props.position.lng }} onClick={this.onPlaceMarkerClick} />
     }
     return (
-
       <Map google={this.props.google}
         style={style}
         initialCenter={{
@@ -208,8 +198,8 @@ export default GoogleApiWrapper({
 })(MapContainer)
 
 const style = {
-  width: '50%',
-  height: '50%',
+  width: '100%',
+  height: '75%',
   position: 'right',
-  margin: '0 auto',
+  margin: '0 auto'
 }    

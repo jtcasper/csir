@@ -1,5 +1,4 @@
 import axios from 'axios';
-import _ from 'lodash';
 import store from '../store';
 import { getIssue } from '../actions';
 import { URL, ISSUE } from '../config/Api';

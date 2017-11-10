@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import axios from 'axios';
 import Login from './Login';
 import '../style/App.css';
 import { URL, REGISTER } from '../config/Api';
+import { Container } from 'semantic-ui-react'
+
+
 class Register extends Component {
     handleClick(event){
         console.log("values",this.state.first_name,this.state.last_name,this.state.email,this.state.user_name,this.state.password);
@@ -18,6 +20,7 @@ class Register extends Component {
         var email = this.state.email
         var username = this.state.user_name
         var password = this.state.password
+        var official = false
 
         return axios
             .post(URL + REGISTER, {
@@ -25,7 +28,8 @@ class Register extends Component {
                 last_name,
                 email,
                 username,
-                password
+                password,
+                official
             })
             .then(function (response) {
                 console.log(response);
@@ -58,6 +62,7 @@ class Register extends Component {
     render() {
         return (
             <div>
+                <Container>
                 <MuiThemeProvider>
                     <div className="form">
 
@@ -96,6 +101,7 @@ class Register extends Component {
                         <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
                     </div>
                 </MuiThemeProvider>
+                </Container>
             </div>
         );
     }

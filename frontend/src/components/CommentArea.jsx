@@ -39,7 +39,7 @@ class CommentArea extends Component {
     render() {
 
         let localComments = null;
-        if (this.state.comments != []) {
+        if (this.state.comments !== []) {
             localComments = this.state.comments;
             //TODO: Maybe turn this into a Comment component?
             return (

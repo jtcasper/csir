@@ -26,7 +26,7 @@ class Dropdown extends Component {
         }
         return (
             <div id="content">
-                <button class="menu-item" onClick={this.toggle}>{this.props.name}</button>
+                <button className="menu-item" onClick={this.toggle}>{this.props.name}</button>
                 {content}
             </div>
         )

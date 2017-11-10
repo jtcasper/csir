@@ -1,11 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Motion, spring } from 'react-motion';
 import { URL, ISSUE, VOTE } from "../config/Api";
 import axios from 'axios';
 import store from '../store';
-
-
-const { Component, Children, PropTypes } = React
 
 const Arrow = ({ direction, ...props }) => (
   <svg viewBox="0 0 28 12" {...props}>
@@ -103,7 +100,7 @@ class Vote extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if(prevState.vote != this.state.vote){
+    if(prevState.vote !== this.state.vote){
       axios
       .get(URL + ISSUE + '/' + this.props.issue_id + '/')
       .then((response) => {
@@ -134,7 +131,6 @@ class Vote extends Component {
   }
 
   render() {
-    const { importance } = this.state
 
     return (
       <div className="vote" ref="myRef">

@@ -26,11 +26,6 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 /* Position and sizing of burger button */
 .bm-burger-button {
   position: fixed;
@@ -80,25 +75,16 @@
   background: rgba(0, 0, 0, 0.3);
 }
 
-a:link {
-  color: #FFEBCD;
-}
-
-/* visited link */
-a:visited {
-  color: #FFEBCD;
-}
-
 .vote {
   font-family: 'Arimo', sans-serif;
   text-align: center;
   color: #525558;
   user-select: none;
   cursor: default;
-  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  height:50px;
 }
 .vote__arrow {
   width: 32px;
@@ -126,15 +112,12 @@ a:visited {
 .vote__column {
   height: 48px;
   font-size: 42px;
+  line-height: 120%;
   overflow: hidden;
 }
+
 .form{
   background-color: white;
-}
-
-.container{
-  text-align: center;
-
 }
 
 .table{

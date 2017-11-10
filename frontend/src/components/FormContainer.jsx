@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 import TextArea from '../components/TextArea';
 import PropTypes from 'prop-types';
 import {URL, ISSUE} from "../config/Api";
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
 import store from '../store';
 import Center from 'react-center';
 import axios from 'axios';
@@ -30,7 +26,7 @@ class FormContainer extends Component {
     }
 
     componentDidUpdate() {
-        if (this.state.lng != this.props.position.lng || this.state.lat != this.props.position.lat) {
+        if (this.state.lng !== this.props.position.lng || this.state.lat !== this.props.position.lat) {
             this.setState({lat: this.props.position.lat});
             this.setState({lng: this.props.position.lng});
         }
