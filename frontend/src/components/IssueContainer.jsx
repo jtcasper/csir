@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { URL, COMMENT } from "../config/Api";
 import store from '../store';
 import axios from 'axios';
-import { Header, Grid, Form, Button } from 'semantic-ui-react'
+import { Header, Grid, Form, Button, Container } from 'semantic-ui-react'
 import CommentArea from './CommentArea'
 
 class IssueContainer extends Component {
@@ -59,7 +59,7 @@ class IssueContainer extends Component {
 
     render() {
         return (
-
+            <Container>
                 <Grid divided='vertically' relaxed>
                     <Grid.Row columns={3}>
                         <Grid.Column>
@@ -80,6 +80,7 @@ class IssueContainer extends Component {
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
+                </Container>
 
         );
     }

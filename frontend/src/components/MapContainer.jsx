@@ -12,7 +12,7 @@ import grey from '../resources/grey.png';
 import blue from '../resources/blue.png';
 import purple from '../resources/purple.png';
 import green from '../resources/green.png';
-import { Sidebar } from 'semantic-ui-react'
+import { Modal, Container } from 'semantic-ui-react'
 
 var projectData = require('../resources/data.json');
 
@@ -195,6 +195,13 @@ export class MapContainer extends Component {
             </div>
           </InfoWindow>
         </Map>
+
+        <Modal open={this.state.showInfo} onClose={() => this.setState({ showInfo: false })} >
+          <Modal.Header>View an Issue</Modal.Header>
+          <Modal.Content>
+            {this.state.infoWindowContent}
+          </Modal.Content>
+        </ Modal>
       </div>
     );
   }
