@@ -5,6 +5,7 @@ import {URL, ISSUE} from "../config/Api";
 import store from '../store';
 import Center from 'react-center';
 import axios from 'axios';
+import { Header, Grid, Form, Button, Container } from 'semantic-ui-react'
 import '../style/App.css';
 
 class FormContainer extends Component {
@@ -78,50 +79,19 @@ class FormContainer extends Component {
     render() {
         return (
 
-            <div className="container" frameBorder="3px black">
-                <br />
-                <Center/>
+          <div className="container">
+                        <Form add>
+                            <Header as='h3' dividing>Issue Title</Header>
+                            <Form.TextArea onChange={this.handleTitleChange} />
 
+                            <Header as='h3' dividing>Issue Description</Header>
+                            <Form.TextArea onChange={this.handleDescriptionChange} />
 
-                <Center>
-                    <div className="table">
-                        <table align="center">
-                            <tr><td colSpan="2"><h3> Create New Issue</h3></td></tr>
-                            <tr>
-                                <td> <p>Enter Issue Title</p> </td>
-
-                                <td >
-                            <TextArea
-                                inputType={'text'}
-                                name={'title'}
-                                controlFunc={this.handleTitleChange}
-                                content={this.state.issueTitle}
-                                placeholder={'Enter Issue Title'} />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> <p> Enter Issue Description</p> </td>
-                                <td>
-                    <TextArea
-                        inputType={'text'}
-                        name={'description'}
-                        controlFunc={this.handleDescriptionChange}
-                        content={this.state.description}
-                        placeholder={'Enter Description of Issue'} />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colSpan="2"><button
-                                    className="btn btn-link"
-                                    onClick={this.handleFormSubmit}>Submit
-                                </button></td>
-                            </tr>
-                        </table>
+                            <Button content='Add Issue' labelPosition='left' icon='add' primary onClick={this.handleFormSubmit} />
+                        </Form>
                     </div>
-                </Center>
-                <br />
 
-            </div>
+
 
         );
     }

@@ -14,7 +14,7 @@ import purple from '../resources/purple.png';
 import green from '../resources/green.png';
 import { Modal, Container } from 'semantic-ui-react'
 
-var projectData = require('../resources/data.json');
+//var projectData = require('../resources/data.json');
 
 
 export class MapContainer extends Component {
@@ -66,7 +66,7 @@ export class MapContainer extends Component {
       infoWindowContent: <FormContainer position={{ lat: marker.position.lat(), lng: marker.position.lng() }} />,
       lat: marker.position.lat(),
       lng: marker.position.lng(),
-      showInfo: false
+      showInfo: true
     })
   }
 
@@ -166,22 +166,23 @@ export class MapContainer extends Component {
             )
           })}
 
+
           {/* Create markers programmatically from the GeoJSON of current raleigh projects */}
-          {projectData.map((endpoint, i) => {
-            let project = endpoint.map((project, j) => {
-              return (
-                <Marker
-                  name={project.features[0].properties.ProjectNam}
-                  position={{
-                    lat: project.features[0].geometry.coordinates[1],
-                    lng: project.features[0].geometry.coordinates[0]
-                  }}
-                  icon={this.selectIcon(project.features[0].properties.FundingSta)}
-                  onClick={this.onActiveMarkerClick} />
-              )
-            })
-            return project
-          })}
+          {/*{projectData.map((endpoint, i) => {*/}
+            {/*let project = endpoint.map((project, j) => {*/}
+              {/*return (*/}
+                {/*<Marker*/}
+                  {/*name={project.features[0].properties.ProjectNam}*/}
+                  {/*position={{*/}
+                    {/*lat: project.features[0].geometry.coordinates[1],*/}
+                    {/*lng: project.features[0].geometry.coordinates[0]*/}
+                  {/*}}*/}
+                  {/*icon={this.selectIcon(project.features[0].properties.FundingSta)}*/}
+                  {/*onClick={this.onActiveMarkerClick} />*/}
+              {/*)*/}
+            {/*})*/}
+            {/*return project*/}
+          {/*})}*/}
 
           {/* Render a marker at the user's clicked location */}
           {placeMarker}
@@ -190,9 +191,9 @@ export class MapContainer extends Component {
             marker={this.state.activeMarker}
             visible={this.state.showingInfoWindow}>
 
-            <div id="iwcontent">
-              {this.state.infoWindowContent}
-            </div>
+            {/*<div id="iwcontent">*/}
+              {/*{this.state.infoWindowContent}*/}
+            {/*</div>*/}
           </InfoWindow>
         </Map>
 
