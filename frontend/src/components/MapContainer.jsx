@@ -186,15 +186,8 @@ export class MapContainer extends Component {
 
           {/* Render a marker at the user's clicked location */}
           {placeMarker}
-          {this.state.infoWindowContent}
-          <InfoWindow
-            marker={this.state.activeMarker}
-            visible={this.state.showingInfoWindow}>
+          {/*{this.state.infoWindowContent} */}
 
-            {/*<div id="iwcontent">*/}
-              {/*{this.state.infoWindowContent}*/}
-            {/*</div>*/}
-          </InfoWindow>
         </Map>
 
         <Modal open={this.state.showInfo} onClose={() => this.setState({ showInfo: false })} >
