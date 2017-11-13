@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { URL, ISSUE } from '../config/Api';
 import axios from 'axios';
+import { Comment } from 'semantic-ui-react'
+import avatar from '../avatar.png'
 
 class CommentArea extends Component {
 
@@ -26,15 +28,15 @@ class CommentArea extends Component {
 
     componentWillReceiveProps(nextProps) {
         axios
-          .get(URL + ISSUE + '/' + nextProps.issue_id + '/comments/')
-          .then((response) => {
-            this.setState({ comments: response.data })
-          })
-          .catch(function (error) {
-            console.log(error)
-          })
-      }
-    
+            .get(URL + ISSUE + '/' + nextProps.issue_id + '/comments/')
+            .then((response) => {
+                this.setState({ comments: response.data })
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    }
+
 
     render() {
 
@@ -43,16 +45,22 @@ class CommentArea extends Component {
             localComments = this.state.comments;
             //TODO: Maybe turn this into a Comment component?
             return (
-                <div>
+                <Comment.Group>
                     {localComments.map((comment, i) => {
                         return (
-                            <div>
-                                <p>{comment.author_raw}</p>
-                                <p>{comment.body}</p>
-                            </div>
+                            
+                                <Comment>
+                                    <Comment.Avatar src={avatar} />
+
+                                    <Comment.Content>
+                                        <Comment.Author as='a'>{comment.author_raw}</Comment.Author>
+                                        <Comment.Text>{comment.body}</Comment.Text>
+                                    </Comment.Content>
+                                </Comment>
+                            
                         )
                     })}
-                </div>
+                </ Comment.Group>
             )
         } else {
             return (

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import TextArea from '../components/TextArea';
 import Vote from './Vote';
 import PropTypes from 'prop-types';
 import { URL, COMMENT } from "../config/Api";
 import store from '../store';
 import axios from 'axios';
-import { Container, Header, Grid } from 'semantic-ui-react'
-
+import { Header, Grid, Form, Button } from 'semantic-ui-react'
+import CommentArea from './CommentArea'
 
 class IssueContainer extends Component {
     constructor(props) {
@@ -36,7 +35,7 @@ class IssueContainer extends Component {
         return axios
             .post(URL + COMMENT + '/', {
                 body: this.state.comment,
-                issue: this.state.issueTitle,
+                issue: this.state.id,
             },
             {
                 headers: { 'Authorization': 'Token ' + store.getState().token }
@@ -61,9 +60,8 @@ class IssueContainer extends Component {
     render() {
         return (
 
-            <Container>
-                <Grid divided='vertically'>
-                    <Grid.Row columns={2}>
+                <Grid divided='vertically' relaxed>
+                    <Grid.Row columns={3}>
                         <Grid.Column>
                             <Header content={this.state.issueTitle} subheader={this.state.description} size='large' />
                         </Grid.Column>
@@ -71,37 +69,17 @@ class IssueContainer extends Component {
                             <Vote issue_id={this.state.id} />
                         </Grid.Column>
                     </Grid.Row>
+                    <Grid.Row stretched>
+                        <Grid.Column>
+                            <CommentArea issue_id={this.state.id} />
+                            <Header as='h3' dividing>Submit New Comment</Header>
+                            <Form reply>
+                                <Form.TextArea onChange={this.handleCommentChange} />
+                                <Button content='Add Reply' labelPosition='left' icon='edit' primary onClick={this.handleFormSubmit} />
+                            </Form>
+                        </Grid.Column>
+                    </Grid.Row>
                 </Grid>
-                <div className="table">
-                    <table align="center">
-                        <tr><td colSpan="2"><h3> {this.state.issueTitle} </h3></td></tr>
-                        <tr>
-                            <td> <p>{this.state.description}</p> </td>
-                        </tr>
-                    </table>
-                </div>
-                <div className="table">
-                    <table align="center">
-                        <tr><td colSpan="2"><h3> {'Submit New Comment'} </h3></td></tr>
-                        <tr>
-                            <td>
-                                <TextArea
-                                    inputType={'text'}
-                                    name={'description'}
-                                    controlFunc={this.handleCommentChange}
-                                    content={this.state.comment}
-                                    placeholder={'Enter Comment'} />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colSpan="2"><button
-                                className="btn btn-link"
-                                onClick={this.handleFormSubmit}>Reply
-                                </button></td>
-                        </tr>
-                    </table>
-                </div>
-            </Container>
 
         );
     }

@@ -12,6 +12,8 @@ import grey from '../resources/grey.png';
 import blue from '../resources/blue.png';
 import purple from '../resources/purple.png';
 import green from '../resources/green.png';
+import { Sidebar } from 'semantic-ui-react'
+
 var projectData = require('../resources/data.json');
 
 
@@ -28,7 +30,8 @@ export class MapContainer extends Component {
       markers: [],
       lat: {},
       lng: {},
-      id: {}
+      id: {},
+      showInfo: false
     }
     // binding this to event-handler functions
     this.onActiveMarkerClick = this.onActiveMarkerClick.bind(this);
@@ -36,18 +39,21 @@ export class MapContainer extends Component {
     this.onMapClicked = this.onMapClicked.bind(this);
   }
 
+  toggleVisibility = () => this.setState({ showInfo: !this.state.showInfo })
+
+
   onActiveMarkerClick(props, marker, e) {
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
       showingInfoWindow: false,
       infoWindowContent:
-      <div>
-        <div><IssueContainer title={props.name} description={props.desc} id={props.id} /></div>
-      </div>,
-      commentContent:<div><CommentArea issue_id={props.id} /></div>,
+        <div>
+          <div><IssueContainer title={props.name} description={props.desc} id={props.id} /></div>
+        </div>,
       lat: marker.position.lat(),
-      lng: marker.position.lng()
+      lng: marker.position.lng(),
+      showInfo: true
     });
 
   }
@@ -60,6 +66,7 @@ export class MapContainer extends Component {
       infoWindowContent: <FormContainer position={{ lat: marker.position.lat(), lng: marker.position.lng() }} />,
       lat: marker.position.lat(),
       lng: marker.position.lng(),
+      showInfo: false
     })
   }
 
@@ -111,19 +118,19 @@ export class MapContainer extends Component {
     return issues.map((issue) => this.createMarker(issue));
   }
 
-    // Determines icon to use based on the funding status of a project
-    selectIcon = (status) => {
-      let icon;
-      if (status === 'Design')
-        icon = grey
-      else if (status === 'Partially funded')
-        icon = purple
-      else if (status === 'Funded')
-        icon = blue
-      else if (status === 'Construction')
-        icon = green
-      return icon
-    }
+  // Determines icon to use based on the funding status of a project
+  selectIcon = (status) => {
+    let icon;
+    if (status === 'Design')
+      icon = grey
+    else if (status === 'Partially funded')
+      icon = purple
+    else if (status === 'Funded')
+      icon = blue
+    else if (status === 'Construction')
+      icon = green
+    return icon
+  }
 
   render() {
     let placeMarker = null
@@ -133,62 +140,62 @@ export class MapContainer extends Component {
       placeMarker = <Marker name={this.state.placeMarker.name} position={{ lat: this.state.placeMarker.props.position.lat, lng: this.state.placeMarker.props.position.lng }} onClick={this.onPlaceMarkerClick} />
     }
     return (
-      <Map google={this.props.google}
-        style={style}
-        initialCenter={{
-          lat: 35.7796,
-          lng: -78.6382
-        }}
-        onClick={this.onMapClicked}>
+      <div>
+        <Map google={this.props.google}
+          style={style}
+          initialCenter={{
+            lat: 35.7796,
+            lng: -78.6382
+          }}
+          onClick={this.onMapClicked}>
 
-        {/* Create markers programmatically from the database */}
+          {/* Create markers programmatically from the database */}
 
-        {this.state.markers.map((marker, i) => {
-          return (
-            <Marker
-              name={marker.name}
-              position={{
-                lat: marker.lat,
-                lng: marker.lng
-              }}
-              importance={marker.importance}
-              desc={marker.desc}
-              id={marker.id}
-              onClick={this.onActiveMarkerClick} />
-          )
-        })}
-
-        {/* Create markers programmatically from the GeoJSON of current raleigh projects */}
-        {projectData.map((endpoint, i) => {
-          let project = endpoint.map((project, j) => {
+          {this.state.markers.map((marker, i) => {
             return (
               <Marker
-                name={project.features[0].properties.ProjectNam}
+                name={marker.name}
                 position={{
-                  lat: project.features[0].geometry.coordinates[1],
-                  lng: project.features[0].geometry.coordinates[0]
+                  lat: marker.lat,
+                  lng: marker.lng
                 }}
-                icon={this.selectIcon(project.features[0].properties.FundingSta)}
+                importance={marker.importance}
+                desc={marker.desc}
+                id={marker.id}
                 onClick={this.onActiveMarkerClick} />
             )
-          })
-          return project
-        })}
+          })}
 
-        {/* Render a marker at the user's clicked location */}
-        {placeMarker}
-        {this.state.infoWindowContent}
-        {this.state.commentContent}
-        {console.log(this.state.commentContent)}
-        <InfoWindow
-          marker={this.state.activeMarker}
-          visible={this.state.showingInfoWindow}>
+          {/* Create markers programmatically from the GeoJSON of current raleigh projects */}
+          {projectData.map((endpoint, i) => {
+            let project = endpoint.map((project, j) => {
+              return (
+                <Marker
+                  name={project.features[0].properties.ProjectNam}
+                  position={{
+                    lat: project.features[0].geometry.coordinates[1],
+                    lng: project.features[0].geometry.coordinates[0]
+                  }}
+                  icon={this.selectIcon(project.features[0].properties.FundingSta)}
+                  onClick={this.onActiveMarkerClick} />
+              )
+            })
+            return project
+          })}
 
-          <div id="iwcontent">
-            {this.state.infoWindowContent}
-          </div>
-        </InfoWindow>
-      </Map>
+          {/* Render a marker at the user's clicked location */}
+          {placeMarker}
+          {this.state.infoWindowContent}
+          <InfoWindow
+            marker={this.state.activeMarker}
+            visible={this.state.showingInfoWindow}>
+
+            <div id="iwcontent">
+              {this.state.infoWindowContent}
+            </div>
+          </InfoWindow>
+        </Map>
+      </div>
     );
   }
 }
