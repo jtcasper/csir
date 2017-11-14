@@ -60,7 +60,7 @@ class IssueContainer extends Component {
     render() {
         return (
             <Container>
-                <Grid divided='vertically' relaxed>
+                <Grid divided='vertically'>
                     <Grid.Row columns={3}>
                         <Grid.Column>
                             <Header content={this.state.issueTitle} subheader={this.state.description} size='large' />

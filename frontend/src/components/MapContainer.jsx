@@ -191,8 +191,7 @@ export class MapContainer extends Component {
         </Map>
 
         <Modal open={this.state.showInfo} onClose={() => this.setState({ showInfo: false })} >
-          <Modal.Header>View an Issue</Modal.Header>
-          <Modal.Content>
+          <Modal.Content scrolling>
             {this.state.infoWindowContent}
           </Modal.Content>
         </ Modal>
@@ -207,7 +206,7 @@ export default GoogleApiWrapper({
 
 const style = {
   width: '100%',
-  height: '75%',
+  height: '91%',
   position: 'right',
   margin: '0 auto'
 }    
