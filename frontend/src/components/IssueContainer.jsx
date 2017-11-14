@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { URL, COMMENT } from "../config/Api";
 import store from '../store';
 import axios from 'axios';
-import { Header, Grid, Form, Button, Container } from 'semantic-ui-react'
+import { Header, Grid, Form, Button, Container, Message } from 'semantic-ui-react'
 import CommentArea from './CommentArea'
 
 class IssueContainer extends Component {
@@ -15,6 +15,7 @@ class IssueContainer extends Component {
             description: this.props.description,
             id: this.props.id,
             comment: '',
+            message: null
         }
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleClearForm = this.handleClearForm.bind(this);
@@ -30,8 +31,8 @@ class IssueContainer extends Component {
         })
 
     }
-
     handleFormSubmit() {
+        var self = this;
         return axios
             .post(URL + COMMENT + '/', {
                 body: this.state.comment,
@@ -42,8 +43,15 @@ class IssueContainer extends Component {
             })
             .then(function (response) {
                 console.log(response);
+                if(response.status == 201){
+                    self.setState({
+                        comment: '', //Clear the Comment
+                        message: <Message positive header='Thank you!' content='Comment has been added successfully' /> //Add success message
+                    });
+                }
             })
             .catch(function (error) {
+                self.setState({message: <Message negative header='Failed to add comment' content='Please try again' />});
                 console.log(error);
             });
 
@@ -60,10 +68,11 @@ class IssueContainer extends Component {
     render() {
         return (
             <Container>
+                <Header content='View Issue' size='large' dividing />
                 <Grid divided='vertically'>
                     <Grid.Row columns={3}>
                         <Grid.Column>
-                            <Header content={this.state.issueTitle} subheader={this.state.description} size='large' />
+                            <Header content={this.state.issueTitle} subheader={this.state.description} size='medium' />
                         </Grid.Column>
                         <Grid.Column>
                             <Vote issue_id={this.state.id} />
@@ -72,15 +81,16 @@ class IssueContainer extends Component {
                     <Grid.Row stretched>
                         <Grid.Column>
                             <CommentArea issue_id={this.state.id} />
-                            <Header as='h3' dividing>Submit New Comment</Header>
+                            <Header content='Submit New Comment' size='medium' />
                             <Form reply>
-                                <Form.TextArea onChange={this.handleCommentChange} />
+                                <Form.TextArea onChange={this.handleCommentChange} content={this.state.comment} />
                                 <Button content='Add Reply' labelPosition='left' icon='edit' primary onClick={this.handleFormSubmit} />
+                                {this.state.message}
                             </Form>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
-                </Container>
+            </Container>
 
         );
     }

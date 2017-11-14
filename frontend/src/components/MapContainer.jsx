@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
-import { getIssues } from '../util/GetIssues';
-import store from '../store';
+import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 import axios from 'axios';
 import { URL, ISSUE } from '../config/Api';
 import FormContainer from "./FormContainer";
-import CommentArea from './CommentArea';
 import IssueContainer from './IssueContainer'
 // Project resources
 import grey from '../resources/grey.png';
 import blue from '../resources/blue.png';
 import purple from '../resources/purple.png';
 import green from '../resources/green.png';
-import { Modal, Container } from 'semantic-ui-react'
+import { Modal } from 'semantic-ui-react'
 
 var projectData = require('../resources/data.json');
 
@@ -147,7 +144,7 @@ export class MapContainer extends Component {
             lat: 35.7796,
             lng: -78.6382
           }}
-          onClick={this.onMapClicked}>
+          onClick={this.onMapClicked} >
 
           {/* Create markers programmatically from the database */}
 
