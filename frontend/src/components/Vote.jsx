@@ -3,6 +3,8 @@ import { Motion, spring } from 'react-motion';
 import { URL, ISSUE, VOTE } from "../config/Api";
 import axios from 'axios';
 import store from '../store';
+import { Button } from 'semantic-ui-react';
+import '../style/App.css';
 
 const Arrow = ({ direction, ...props }) => (
   <svg viewBox="0 0 28 12" {...props}>
@@ -133,23 +135,34 @@ class Vote extends Component {
   render() {
 
     return (
-      <div className="vote" ref="myRef">
-        <Arrow
-          direction="up"
-          className="vote__arrow vote__arrow--up"
-          onClick={() => this.vote(1)}
-        />
-        <div className="vote__columns">
-          {this._getCount()}
-        </div>
-        <Arrow
-          direction="down"
-          className="vote__arrow vote__arrow--down"
-          onClick={() => this.vote(-1)}
-        />
-      </div>
+       <div class ="whole" style={style}>
+         <div className="upvote">
+         <Button
+             color='red'
+             content='Upvote'
+             icon='heart'
+             label={{ basic: true, color: 'red', pointing: 'left', content: '2,048' }}
+             onClick={() => this.vote(1)}
+         />
+         </div>
+         <div className="downvote">
+         <Button
+             basic
+             color='blue'
+             content='Downvote'
+             icon='empty heart'
+             label={{ as: 'a', basic: true, color: 'blue', pointing: 'left', content: '1,048' }}
+             onClick={() => this.vote(-1)}
+         />
+         </div>
+       </div>
+
     )
   }
 }
+
+const style = {
+    display:'inline-block',
+};
 
 export default Vote;

@@ -100,6 +100,7 @@ class FormContainer extends Component {
         } else { // Still creating issue
             return (
                 <div className="container">
+                    <Header content='Add an Issue' size='large' dividing />
                     <Form add>
 
                         <Form.Field>

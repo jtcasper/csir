@@ -123,8 +123,10 @@
 .table{
   border: 3px solid black;
 }
-
-
+#upvote , #downvote {
+  display:inline-block;
+  /**other codes**/
+}
 .map{
   float:left;
 }

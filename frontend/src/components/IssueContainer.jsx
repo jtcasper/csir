@@ -70,7 +70,7 @@ class IssueContainer extends Component {
             <Container>
                 <Header content='View Issue' size='large' dividing />
                 <Grid divided='vertically'>
-                    <Grid.Row columns={3}>
+                    <Grid.Row columns={2}>
                         <Grid.Column>
                             <Header content={this.state.issueTitle} subheader={this.state.description} size='medium' />
                         </Grid.Column>
