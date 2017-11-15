@@ -2,7 +2,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import store from '../store';
 import { setToken } from '../actions';
-import { URL, LOGIN } from '../config/Api';
+import { URL, LOGIN, REGISTER } from '../config/Api';
 
 export function InvalidCredentialsException(message) {
     this.message = message;
@@ -28,6 +28,27 @@ export function login (username, password) {
     });
 }
 
+export function register(first_name, last_name, email, username, password, official){
+    console.log(URL + REGISTER);
+    return axios
+            .post(URL + REGISTER, {
+                first_name,
+                last_name,
+                email,
+                username,
+                password,
+                official
+            })
+            .then(function (response) {
+                console.log(response);
+                if(response.data.code === 200){
+                    console.log("registration successfull");
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+}
 export function loggedin() {
     return store.getState().token != null;
 }

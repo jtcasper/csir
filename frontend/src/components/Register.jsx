@@ -1,113 +1,101 @@
 import React, { Component } from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
-import axios from 'axios';
-import Login from './Login';
 import '../style/App.css';
-import { URL, REGISTER } from '../config/Api';
-import { Container } from 'semantic-ui-react'
-
+import { Button, Form, Grid, Header,Segment } from 'semantic-ui-react';
+import { register } from '../util/Auth';
 
 class Register extends Component {
-    handleClick(event){
-        console.log("values",this.state.first_name,this.state.last_name,this.state.email,this.state.user_name,this.state.password);
-        //To be done:check for empty values before hitting submit
-        var self = this;
-
-        var first_name = this.state.first_name
-        var last_name = this.state.last_name
-        var email = this.state.email
-        var username = this.state.user_name
-        var password = this.state.password
-        var official = false
-
-        return axios
-            .post(URL + REGISTER, {
-                first_name,
-                last_name,
-                email,
-                username,
-                password,
-                official
-            })
-            .then(function (response) {
-                console.log(response);
-                if(response.data.code === 200){
-                    //  console.log("registration successfull");
-                    var loginscreen=[];
-                    loginscreen.push(<Login parentContext={this}/>);
-                    var loginmessage = "Not Registered yet.Go to registration";
-                    self.props.parentContext.setState({loginscreen:loginscreen,
-                        loginmessage:loginmessage,
-                        buttonLabel:"Register",
-                        isLogin:true
-                    });
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
-            first_name:'',
-            last_name:'',
-            user_name:'',
-            email:'',
-            password:''
+        this.state = {
+            first_name: '',
+            last_name: '',
+            email: '',
+            username: '',
+            password: '',
+            official: false,
         }
     }
+
+    handleChange = (e, { name, value }) => this.setState({ [name]: value })
+
     render() {
         return (
-            <div>
-                <Container>
-                <MuiThemeProvider>
-                    <div className="form">
+            <div className='login-form'>
+                {/*
+      Heads up! The styles below are necessary for the correct render of this example.
+      You can do same with CSS, the main idea is that all the elements up to the `Grid`
+      below must have a height of 100%.
+    */}
+                <style>{`
+      body > div,
+      body > div > div,
+      body > div > div > div.login-form {
+        height: 100%;
+      }
+    `}</style>
+                <Grid
+                    textAlign='center'
+                    style={{ height: '100%' }}
+                    verticalAlign='middle'
+                >
+                    <Grid.Column style={{ maxWidth: 450 }}>
+                        <Header as='h2' color='black' textAlign='center'>
+                            {''}Register
+                        </Header>
+                        <Form size='large'>
+                            <Segment stacked>
+                                <Form.Input
+                                    fluid
+                                    placeholder='First Name'
+                                    name={'first_name'}
+                                    value={this.state.first_name}
+                                    onChange={this.handleChange}
+                                />
+                                <Form.Input
+                                    fluid
+                                    placeholder='Last Name'
+                                    name={'last_name'}
+                                    value={this.state.last_name}
+                                    onChange={this.handleChange}
+                                />
+                                <Form.Input
+                                    fluid
+                                    placeholder='Email Address'
+                                    name={'email'}
+                                    value={this.state.email}
+                                    onChange={this.handleChange}
+                                />
+                                <Form.Input
+                                    fluid
+                                    placeholder='Username'
+                                    name={'username'}
+                                    value={this.state.username}
+                                    onChange={this.handleChange}
+                                />
+                                <Form.Input
+                                    fluid
+                                    placeholder='Password'
+                                    type='password'
+                                    name={'password'}
+                                    value={this.state.password}
+                                    onChange={this.handleChange}
+                                />
 
-                        <TextField
-                            hintText="Enter your First Name"
-                            floatingLabelText="First Name"
-                            onChange = {(event,newValue) => this.setState({first_name:newValue})}
-                        />
-                        <br/>
-                        <TextField
-                            hintText="Enter your Last Name"
-                            floatingLabelText="Last Name"
-                            onChange = {(event,newValue) => this.setState({last_name:newValue})}
-                        />
-                        <br/>
-                        <TextField
-                            hintText="Enter your Email"
-                            type="email"
-                            floatingLabelText="Email"
-                            onChange = {(event,newValue) => this.setState({email:newValue})}
-                        />
-                        <br/>
-                        <TextField
-                            hintText="Enter your User Name"
-                            floatingLabelText="User Name"
-                            onChange = {(event,newValue) => this.setState({user_name:newValue})}
-                        />
-                        <br/>
-                        <TextField
-                            type = "password"
-                            hintText="Enter your Password"
-                            floatingLabelText="Password"
-                            onChange = {(event,newValue) => this.setState({password:newValue})}
-                        />
-                        <br/>
-                        <RaisedButton label="Submit" primary={true} style={style} onClick={(event) => this.handleClick(event)}/>
-                    </div>
-                </MuiThemeProvider>
-                </Container>
+                                <Button color='black' fluid size='large' onClick={(event) => this.handleClick(event)}>Login</Button>
+                            </Segment>
+                        </Form>
+                    </Grid.Column>
+                </Grid>
             </div>
         );
+    }
+
+
+    handleClick(event) {
+        register(this.state.first_name, this.state.last_name, this.state.email, this.state.username, this.state.password, this.state.official);
     }
 }
 const style = {
     margin: 15,
 };
-
 export default Register;
