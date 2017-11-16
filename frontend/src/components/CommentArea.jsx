@@ -49,9 +49,8 @@ class CommentArea extends Component {
                     {localComments.map((comment, i) => {
                         return (
                             
-                                <Comment>
+                                <Comment key={i}>
                                     <Comment.Avatar src={avatar} />
-
                                     <Comment.Content>
                                         <Comment.Author as='a'>{comment.author_raw}</Comment.Author>
                                         <Comment.Text>{comment.body}</Comment.Text>

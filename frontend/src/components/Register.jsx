@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../style/App.css';
-import { Button, Form, Grid, Header,Segment } from 'semantic-ui-react';
+import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react';
 import { register } from '../util/Auth';
 
 class Register extends Component {
@@ -37,6 +37,7 @@ class Register extends Component {
                     textAlign='center'
                     style={{ height: '100%' }}
                     verticalAlign='middle'
+                    padded
                 >
                     <Grid.Column style={{ maxWidth: 450 }}>
                         <Header as='h2' color='black' textAlign='center'>
@@ -81,7 +82,7 @@ class Register extends Component {
                                     onChange={this.handleChange}
                                 />
 
-                                <Button color='black' fluid size='large' onClick={(event) => this.handleClick(event)}>Login</Button>
+                                <Button color='black' fluid size='large' onClick={(event) => this.handleClick(event)}>Register</Button>
                             </Segment>
                         </Form>
                     </Grid.Column>
@@ -90,9 +91,10 @@ class Register extends Component {
         );
     }
 
-
     handleClick(event) {
-        register(this.state.first_name, this.state.last_name, this.state.email, this.state.username, this.state.password, this.state.official);
+        console.log('output!' +
+            register(this.state.first_name, this.state.last_name, this.state.email, this.state.username,
+                this.state.password, this.state.official));
     }
 }
 const style = {

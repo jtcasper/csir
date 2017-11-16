@@ -7,6 +7,13 @@ export const setToken = (data) => {
     }
 }
 
+export const setUname = (data) => {
+    return {
+        type: actionType.SET_UNAME,
+        data
+    }
+}
+
 export const getIssue = (data) => {
     return {
         type: actionType.GET_ISSUE,

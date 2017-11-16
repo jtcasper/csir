@@ -11,18 +11,18 @@ const token = (state = tokenInitialState, action) => {
     }
 }
 
-// const issueInitialState = null;
-// const issues = (state = issueInitialState, action) => {
-//     switch(action.type) {
-//         case actionType.GET_ISSUE:
-//             return action.data;
-//         default:
-//             return state;
-//     }
-// }
+const usernameInitialState = null;
+const username = (state = usernameInitialState, action) => {
+    switch(action.type) {
+        case actionType.SET_UNAME:
+            return action.data;
+        default:
+            return state;
+    }
+}
 
 const appReducer = combineReducers({
-    token,
+    token, username,
 })
 
 const rootReducer = (state, action) => {

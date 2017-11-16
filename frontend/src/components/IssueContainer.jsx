@@ -70,7 +70,7 @@ class IssueContainer extends Component {
             <Container>
                 <Header content='View Issue' size='large' dividing />
                 <Grid divided='vertically'>
-                    <Grid.Row columns={2}>
+                    <Grid.Row columns={3}>
                         <Grid.Column>
                             <Header content={this.state.issueTitle} subheader={this.state.description} size='medium' />
                         </Grid.Column>
@@ -84,7 +84,7 @@ class IssueContainer extends Component {
                             <Header content='Submit New Comment' size='medium' />
                             <Form reply>
                                 <Form.TextArea onChange={this.handleCommentChange} content={this.state.comment} />
-                                <Button content='Add Reply' labelPosition='left' icon='edit' primary onClick={this.handleFormSubmit} />
+                                <Button content='Add Comment' labelPosition='left' icon='edit' primary onClick={this.handleFormSubmit} />
                                 {this.state.message}
                             </Form>
                         </Grid.Column>
@@ -96,7 +96,7 @@ class IssueContainer extends Component {
     }
 }
 IssueContainer.propTypes = {
-    title: PropTypes.object,
-    description: PropTypes.object,
+    title: PropTypes.string,
+    description: PropTypes.string,
 }
 export default IssueContainer;

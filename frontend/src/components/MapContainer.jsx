@@ -151,6 +151,7 @@ export class MapContainer extends Component {
           {this.state.markers.map((marker, i) => {
             return (
               <Marker
+                key={i}
                 name={marker.name}
                 position={{
                   lat: marker.lat,
