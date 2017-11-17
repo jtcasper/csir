@@ -160,6 +160,7 @@ export class MapContainer extends Component {
                 importance={marker.importance}
                 desc={marker.desc}
                 id={marker.id}
+                label={marker.importance.toString()}
                 onClick={this.onActiveMarkerClick} />
             )
           })}
