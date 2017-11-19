@@ -93,7 +93,7 @@ class Vote extends Component {
   }
 
   vote(val) {
-    var newVote = val == this.state.vote ? 0 : val;
+    var newVote = val === this.state.vote ? 0 : val;
     axios
       .post(URL + VOTE + '/', {
         issue: this.props.issue_id,
@@ -112,7 +112,7 @@ class Vote extends Component {
   }
 
   render() {
-    if(this.state.vote == 0){
+    if(this.state.vote === 0){
       return (
         <Button.Group>
           <Button positive icon='thumbs outline up' onClick={() => this.vote(1)} />
@@ -120,7 +120,7 @@ class Vote extends Component {
           <Button negative icon='thumbs outline down' onClick={() => this.vote(-1)} />
         </ Button.Group>
       )
-    } else if (this.state.vote == 1){
+    } else if (this.state.vote === 1){
       return (
         <Button.Group>
           <Button positive icon='thumbs up' onClick={() => this.vote(1)} />

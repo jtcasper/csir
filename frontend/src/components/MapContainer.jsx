@@ -4,12 +4,13 @@ import axios from 'axios';
 import { URL, ISSUE } from '../config/Api';
 import FormContainer from "./FormContainer";
 import IssueContainer from './IssueContainer'
+import ProjectContainer from './ProjectContainer'
 // Project resources
 import grey from '../resources/grey.png';
 import blue from '../resources/blue.png';
 import purple from '../resources/purple.png';
 import green from '../resources/green.png';
-import { Modal } from 'semantic-ui-react'
+import { Modal, Button } from 'semantic-ui-react'
 
 var projectData = require('../resources/data.json');
 
@@ -40,19 +41,33 @@ export class MapContainer extends Component {
 
 
   onActiveMarkerClick(props, marker, e) {
-    this.setState({
-      selectedPlace: props,
-      activeMarker: marker,
-      showingInfoWindow: false,
-      infoWindowContent:
-        <div>
-          <div><IssueContainer title={props.name} description={props.desc} id={props.id} /></div>
-        </div>,
-      lat: marker.position.lat(),
-      lng: marker.position.lng(),
-      showInfo: true
-    });
-
+    if(props.project){
+      this.setState({
+        selectedPlace: props,
+        activeMarker: marker,
+        showingInfoWindow: true,
+        infoWindowContent:
+          <div>
+            <ProjectContainer title={props.name} status={props.status} />
+          </div>,
+        lat: marker.position.lat(),
+        lng: marker.position.lng(),
+        showInfo: true
+      });
+    } else {
+      this.setState({
+        selectedPlace: props,
+        activeMarker: marker,
+        showingInfoWindow: false,
+        infoWindowContent:
+          <div>
+            <div><IssueContainer title={props.name} description={props.desc} id={props.id} /></div>
+          </div>,
+        lat: marker.position.lat(),
+        lng: marker.position.lng(),
+        showInfo: true
+      });
+    }
   }
 
   onPlaceMarkerClick(props, marker, e) {
@@ -161,7 +176,8 @@ export class MapContainer extends Component {
                 desc={marker.desc}
                 id={marker.id}
                 label={marker.importance.toString()}
-                onClick={this.onActiveMarkerClick} />
+                onClick={this.onActiveMarkerClick} 
+                project={false}/>
             )
           })}
 
@@ -177,7 +193,9 @@ export class MapContainer extends Component {
                     lng: project.features[0].geometry.coordinates[0]
                   }}
                   icon={this.selectIcon(project.features[0].properties.FundingSta)}
-                  onClick={this.onActiveMarkerClick} />
+                  onClick={this.onActiveMarkerClick} 
+                  status={project.features[0].properties.FundingSta}
+                  project={true}/>
               )
             })
             return project

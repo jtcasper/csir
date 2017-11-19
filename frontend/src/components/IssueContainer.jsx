@@ -45,7 +45,6 @@ class IssueContainer extends Component {
                 console.log(response);
                 if(response.status == 201){
                     self.setState({
-                        comment: '', //Clear the Comment
                         message: <Message positive header='Thank you!' content='Comment has been added successfully' /> //Add success message
                     });
                 }
@@ -83,7 +82,7 @@ class IssueContainer extends Component {
                             <CommentArea issue_id={this.state.id} />
                             <Header content='Submit New Comment' size='medium' />
                             <Form reply>
-                                <Form.TextArea onChange={this.handleCommentChange} content={this.state.comment} />
+                                <Form.TextArea onChange={this.handleCommentChange}/>
                                 <Button content='Add Comment' labelPosition='left' icon='edit' primary onClick={this.handleFormSubmit} />
                                 {this.state.message}
                             </Form>
