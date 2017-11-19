@@ -7,7 +7,7 @@ import {
 import {
     URL,
     LOGIN,
-    REGISTER
+    USER
 } from '../config/Api';
 
 export function InvalidCredentialsException(message) {
@@ -44,10 +44,10 @@ export function login(username, password) {
 }
 
 export function register(first_name, last_name, email, username, password, official) {
-    console.log(URL + REGISTER);
+    console.log(URL + USER);
     var res;
     axios
-        .post(URL + REGISTER, {
+        .post(URL + USER, {
             first_name,
             last_name,
             email,

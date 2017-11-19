@@ -101,7 +101,7 @@ class FormContainer extends Component {
             return (
                 <div className="container">
                     <Header content='Add an Issue' size='large' dividing />
-                    <Form add>
+                    <Form>
 
                         <Form.Field>
                             <label>Issue Title</label>
@@ -113,7 +113,7 @@ class FormContainer extends Component {
                             <input placeholder='Description' onChange={this.handleDescriptionChange} />
                         </Form.Field>
 
-                        <Button content='Add Issue' labelPosition='center' icon='add' primary onClick={this.handleFormSubmit} />
+                        <Button content='Add Issue' icon='add' primary onClick={this.handleFormSubmit} />
                     </Form>
                 </div>
             );
